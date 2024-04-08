@@ -6,27 +6,28 @@
 
 const url = "https://randomuser.me/api/?nat=Dk&results=50";
 const wrapperEl = document.querySelector(".containerusers")
-
+let userData;
 
 // Læs dokumentation og find ud af hvordan man får en user (5 min eller indtil en har et svar)
 
 // Find ud af hvordan man får 50 users (5 min eller indtil en har et svar)
 
 // Fetch og log dem med fetch
-fetch(url)
-  .then(res => res.json())
-  .then(data => renderUsers(data))
-  .catch(err => console.log("Ups noget gik galt....", err))
+// fetch(url)
+//   .then(res => res.json())
+//   .then(data => renderUsers(data))
+//   .catch(err => console.log("Ups noget gik galt....", err))
 
 // Prøv nu at kopiere og omskrive det til async/await (Mark viser hvordan)
 
 
-// async function fetchStuff() {
-//   const res = await fetch(url);
-//   const data = await res.json();
-//   console.log(data)
-// }
-// fetchStuff();
+async function fetchStuff() {
+  const res = await fetch(url);
+  const data = await res.json();
+  userData = data.results;
+  renderUsers(data.results);
+}
+fetchStuff();
 
 
 // I grupperne
@@ -62,7 +63,8 @@ fetch(url)
 // Prøv nu at udkommentere ovenfor og anvend istedet .innerHTML med strukturen fra index.html. Igen en per bruger i results
 
 function renderUsers(users) {
-  users.results.forEach(user => {
+  wrapperEl.innerHTML = "";
+  users.forEach(user => {
     wrapperEl.innerHTML += `<article class="version2">
     <h4 class="title">${user.name.title} ${user.name.first} ${user.name.last}</h4>
     <p class="cityCountry">
@@ -85,11 +87,14 @@ function renderUsers(users) {
 
 // Hvis vi kan nå det: implementér filtrering i form af en input[type="search"]
 // Fang input
-const inputEl = document.querySelector("#input");
+const inputEl = document.querySelector("#search");
 
 // Lyt efter changeevent find den værdi der er i inputfeltet
-inputEl.addEventListener("change", e => {
-  console.log("my event happend");
-
+inputEl.addEventListener("input", e => {
+  const userSearch = e.target.value;
+  const filteredUsers = userData.filter(user => user.name.first.includes(userSearch));
+  // filtrer users
+  renderUsers(filteredUsers)
+  // Render de filtrerede users
 })
 
