@@ -84,3 +84,12 @@ function renderUsers(users) {
 //
 
 // Hvis vi kan nå det: implementér filtrering i form af en input[type="search"]
+// Fang input
+const inputEl = document.querySelector("#input");
+
+// Lyt efter changeevent find den værdi der er i inputfeltet
+inputEl.addEventListener("change", e => {
+  console.log("my event happend");
+
+})
+
